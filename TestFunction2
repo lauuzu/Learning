@@ -1,0 +1,105 @@
+codeunit 50101 TestFunction2
+{
+    trigger OnRun()
+    begin
+
+    end;
+    //reverses inputed text
+    procedure ReverseInput(TextInput: Text)
+    var
+        Result: Text;
+        size: Integer;
+        i: Integer;
+
+    begin
+        size := StrLen(TextInput);
+        for i := 1 to size do begin
+            Result[i] := TextInput[size - i + 1];
+        end;
+        Message(Result);
+    end;
+
+    procedure MinMaxFunction()
+    var
+        RandomArray: Array[100] of Integer;
+        i: Integer;
+        Minimum: Integer;
+        Maximum: Integer;
+        size: Integer;
+    begin
+        RandomizeArray(RandomArray);
+        size := ArrayLen(RandomArray);
+        Minimum := RandomArray[1];
+        Maximum := RandomArray[1];
+        for i := 1 to size do begin
+            if Maximum < RandomArray[i] then
+                Maximum := RandomArray[i];
+            if Minimum > RandomArray[i] then
+                Minimum := RandomArray[i];
+        end;
+
+        Message('Min value : %1\ Max value :%2\', Minimum, Maximum);
+    end;
+
+    procedure RepeatingNumbers()
+    var
+        RandomArray: Array[100] of Integer;
+        dictonary: Dictionary of [Integer, Integer];
+        i: Integer;
+        Repeats: Integer;
+        dictValue: Integer;
+        KeysID: List of [Integer];
+        ValueDic: Integer;
+        Lab: Label 'Key - %1\  and repeats:  %2\';
+        size: Integer;
+    begin
+        RandomizeArray(RandomArray);
+        size := ArrayLen(RandomArray);
+        for i := 1 to size do begin
+            if dictonary.Get(RandomArray[i], Repeats) then
+                dictonary.Set(RandomArray[i], Repeats + 1)
+            else
+                dictonary.Add(RandomArray[i], 1);
+        end;
+        KeysID := dictonary.Keys();
+        foreach i in KeysID do begin
+            ValueDic := dictonary.Get(i);
+            if ValueDic > 1 then
+                Message(Lab, i, ValueDic);
+        end;
+    end;
+
+    Procedure CountLetters(InsertedText: Text)
+    var
+        LabWovel: Label 'aąeęėiįyouųū';
+        LabCons: Label 'bcčdfghjklmnprsštvzž';
+        repeatsCons: Integer;
+        repeatsWovel: Integer;
+        Result: Text;
+        ResultConst: Text;
+        ResultWovel: Text;
+    begin
+        Result := InsertedText.ToLower();
+        ResultWovel := DelChr(Result, '=', DelChr(Result, '=', LabWovel));
+        ResultConst := DelChr(Result, '=', DelChr(Result, '=', LabCons));
+        repeatsCons := StrLen(ResultConst);
+        repeatsWovel := StrLen(ResultWovel);
+        Message('Text contains: \ %1 wovels \ %2 consonant', repeatsWovel, repeatsCons);
+    end;
+    //Programuotojo ar tiesiog bet kokio IT specialisto profesija taps vis labiau įprasta.
+    // kažkas tokio įdomaus. // 9 priebals  9 balses
+    procedure RandomizeArray(var RArray: Array[100] of Integer)
+    var
+        i: Integer;
+    begin
+        for i := 1 to 100 do begin
+            RArray[i] := Random(100);
+        end;
+
+    end;
+
+    var
+        myInt: Integer;
+
+
+}
